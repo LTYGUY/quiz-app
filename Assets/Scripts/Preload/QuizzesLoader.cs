@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class QuizzesLoader : MonoBehaviour {
     static string SavePath => $"{Application.persistentDataPath}/quizzes.json";
-    public static List<Quiz> Quizzes { get; private set; } = new List<Quiz>();
+    public static Quizzes Quizzes { get; private set; }
 
     void Awake() {
-        QuizzesLoader.Quizzes = this.LoadQuizzes();
+        this.LoadQuizzes();
     }
 
-    public static void AddNewQuiz(Quiz quiz) => Quizzes.Add(quiz);
+    void LoadQuizzes() {
+        // TODO: Add database sync
+        QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonUtility.FromJson<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : default(Quizzes);
+    }
 
-    public static void WriteQuizzesToFile() => File.WriteAllText(SavePath, JsonUtility.ToJson(QuizzesLoader.Quizzes));
+    public static void AddNewQuiz(Quiz quiz) => QuizzesLoader.Quizzes.QuizList.Add(quiz);
 
-    List<Quiz> LoadQuizzes() => File.Exists(SavePath) ? JsonUtility.FromJson<List<Quiz>>(File.ReadAllText(SavePath)) : new List<Quiz>();
+    public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonUtility.ToJson(QuizzesLoader.Quizzes));
 }
