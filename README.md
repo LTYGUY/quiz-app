@@ -1,3 +1,7 @@
 # quiz-app
 
-`quiz-app` is a minimalistic Windows application for creating and testing quizzes. Created quizzes will persist either in the cloud, or locally when internet connectivity is not readily available.
+`quiz-app` is a minimalistic Windows application for creating and testing quizzes, made with the Unity engine. Created quizzes will persist either in the cloud, or locally when internet connectivity is not readily available.
+
+## Requirements
+
+- Unity 2022.1.3f1
