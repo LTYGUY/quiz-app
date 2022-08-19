@@ -8,6 +8,7 @@
 [Aa]ssets/AssetStoreTools*
 [Aa]ssets/AutoSave*
 [Aa]ssets/Scripts/Static/**/*.meta
+[Aa]ssets/Scripts/Utils/**/*.meta
 [Aa]ssets/Resources/API
 [Aa]ssets/Resources/*.meta
 [Aa]ssets/Plugins/**/*.meta
