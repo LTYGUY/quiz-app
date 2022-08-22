@@ -5,18 +5,16 @@ public class QuizDetailsPage : MonoBehaviour {
 
     [SerializeField]
     TextMeshProUGUI quizTitle;
-    int currentQuizIndex = 0;
 
     void OnEnabled() {
-        //Grab the most recent created quiz, pdf moment
-        currentQuizIndex = QuizzesLoader.Quizzes.QuizList.Count - 1;
-        quizTitle.text = QuizzesLoader.Quizzes.QuizList[currentQuizIndex].QuizName;
+        quizTitle.text = QuizzesLoader.CurrentQuiz.QuizName;
     }
 
     public void AddQuestionPressed() {
+        MainUIs.MoveToPage(MainUIsEnum.QuestionDetailsPage);
     }
 
     public void PreviewQuizPressed() {
-
+        MainUIs.MoveToPage(MainUIsEnum.QuizPreviewPage);
     }
 }

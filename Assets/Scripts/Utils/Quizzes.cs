@@ -24,12 +24,12 @@ public class Quiz {
 
 public readonly struct Question {
     public string QuizQuestion { get; }
-    public string CorrectOption { get; }
+    public int CorrectOptionIndex { get; }
     public string[] OptionList { get; }
 
-    public Question(string quizQuestion, string correctOption, params string[] options) {
+    public Question(string quizQuestion, int correctOption, params string[] options) {
         this.QuizQuestion = quizQuestion;
         this.OptionList = options;
-        this.CorrectOption = correctOption;
+        this.CorrectOptionIndex = correctOption;
     }
 }

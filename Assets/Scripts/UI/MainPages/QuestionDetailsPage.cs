@@ -20,6 +20,6 @@ public class QuestionDetailsPage : MonoBehaviour {
         }
     }
     public void SaveButtonPressed() {
-
+        MainUIs.MoveToPage(MainUIsEnum.QuizDetailsPage);
     }
 }

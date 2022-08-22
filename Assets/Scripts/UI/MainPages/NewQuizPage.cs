@@ -6,8 +6,9 @@ public class NewQuizPage : MonoBehaviour {
     [SerializeField]
     TMP_InputField quizName;
 
-    public void SaveButtonPressed() {
+    public void OnSaveButtonPressed() {
         //Do something
+        MainUIs.MoveToPage(MainUIsEnum.QuizDetailsPage);
         QuizzesLoader.AddNewQuiz(new Quiz(quizName.text, new List<Question>()));
     }
 }

@@ -6,16 +6,21 @@ public class QuizzesLoader : MonoBehaviour {
     static string SavePath => $"{Application.persistentDataPath}/quizzes.json";
     public static Quizzes Quizzes { get; private set; }
 
+    public static Quiz CurrentQuiz { get; private set; }
+
     void Awake() {
         this.LoadQuizzes();
     }
 
     void LoadQuizzes() {
         // TODO: Add database sync
-        QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonUtility.FromJson<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : default(Quizzes);
+        QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonUtility.FromJson<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : new Quizzes(new List<Quiz>());
     }
 
-    public static void AddNewQuiz(Quiz quiz) => QuizzesLoader.Quizzes.QuizList.Add(quiz);
+    public static void AddNewQuiz(Quiz quiz) {
+        QuizzesLoader.Quizzes.QuizList.Add(quiz);
+        CurrentQuiz = quiz;
+    }
 
     public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonUtility.ToJson(QuizzesLoader.Quizzes));
 }
