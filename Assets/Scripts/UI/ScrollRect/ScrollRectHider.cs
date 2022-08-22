@@ -2,14 +2,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class ScrollRectHider : MonoBehaviour {
-    [SerializeField]
-    Image[] imagesToHide;
+    [SerializeField] Image[] imagesToHide;
 
-    [SerializeField]
-    RectTransform scrollRect;
-
-    [SerializeField]
-    RectTransform scrollRectContent;
+    [SerializeField] RectTransform scrollRect;
+    [SerializeField] RectTransform scrollRectContent;
 
     void OnGUI() {
         if (!gameObject.activeInHierarchy) return;

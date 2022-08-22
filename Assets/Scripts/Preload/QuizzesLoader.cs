@@ -24,13 +24,13 @@ public class QuizzesLoader : MonoBehaviour {
         // TODO: Add database sync
         QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonUtility.FromJson<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : new Quizzes(new List<Quiz>());
 
-        OnQuizzesLoad?.Invoke();
+        QuizzesLoader.OnQuizzesLoad?.Invoke();
     }
 
     public static void AddNewQuiz(Quiz quiz) {
         QuizzesLoader.Quizzes.QuizList.Add(quiz);
-        CurrentQuiz = quiz;
-        OnNewQuizAdded?.Invoke(quiz);
+        QuizzesLoader.CurrentQuiz = quiz;
+        QuizzesLoader.OnNewQuizAdded?.Invoke(quiz);
     }
 
     public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonUtility.ToJson(QuizzesLoader.Quizzes));

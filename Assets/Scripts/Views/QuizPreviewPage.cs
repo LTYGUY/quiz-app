@@ -10,40 +10,32 @@ public class QuizPreviewPage : MonoBehaviour {
     public static int currentScore = 0;
 
     void OnEnable() {
-        currentQuestionIndex = 0;
-        currentScore = 0;
-
-        SetupQuestion();
-
-        if (currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1)
-            nextButton.text = "Submit";
-        else
-            nextButton.text = "Next";
+        this.currentQuestionIndex = 0;
+        QuizPreviewPage.currentScore = 0;
+        this.SetupQuestion();
+        this.nextButton.text = this.currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1 ? "Submit" : "Next";
     }
 
     public void ChooseOption(int index) {
-        chosenOption = index;
+        this.chosenOption = index;
     }
 
     public void OnNextButtonPressed() {
-        if (chosenOption == -1) {
+        if (this.chosenOption == -1) return;
+
+        if (this.currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1) {
+            this.OnSubmitButtonPressed();
             return;
         }
+
+        this.IncreaseScoreIfCorrect();
+        this.currentQuestionIndex++;
+        this.chosenOption = -1;
+        this.SetupQuestion();
 
         if (currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1) {
-            OnSubmitButtonPressed();
-            return;
-        }
-
-        IncreaseScoreIfCorrect();
-        currentQuestionIndex++;
-
-        chosenOption = -1;
-
-        SetupQuestion();
-
-        if (currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1)
             nextButton.text = "Submit";
+        }
     }
 
     void SetupQuestion() {
@@ -55,12 +47,11 @@ public class QuizPreviewPage : MonoBehaviour {
     }
 
     void IncreaseScoreIfCorrect() {
-        if (currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].CorrectOptionIndex)
-            currentScore++;
+        if (currentQuestionIndex != QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].CorrectOptionIndex) return;
+        QuizPreviewPage.currentScore++;
     }
 
     void OnSubmitButtonPressed() {
-
-        MainUIs.MoveToPage(MainUIsEnum.QuizResultsPage);
+        MainUI.MoveToPage(MainUIEnum.QuizResultsPage);
     }
 }

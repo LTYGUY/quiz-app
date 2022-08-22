@@ -8,7 +8,7 @@ public class NewQuizPage : MonoBehaviour {
 
     public void OnSaveButtonPressed() {
         //Do something
-        QuizzesLoader.AddNewQuiz(new Quiz(quizName.text, new List<Question>()));
-        MainUIs.MoveToPage(MainUIsEnum.QuizDetailsPage);
+        QuizzesLoader.AddNewQuiz(new Quiz(this.quizName.text, new List<Question>()));
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
 }

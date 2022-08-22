@@ -1,5 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,26 +6,26 @@ using TMPro;
 
 public class QuestionDetailsPage : MonoBehaviour {
 
-    [SerializeField]
-    Toggle[] allOptions = new Toggle[3];
+    [SerializeField] Toggle[] allOptions = new Toggle[3];
+
+    [SerializeField] TMP_InputField question;
+    [SerializeField] TMP_InputField option1;
+    [SerializeField] TMP_InputField option2;
+    [SerializeField] TMP_InputField option3;
+
     int correctOptionIndex;
 
-    [SerializeField]
-    TMP_InputField question, option1, option2, option3;
-
     public void CorrectOptionChosen(int index) {
-        correctOptionIndex = index;
+        this.correctOptionIndex = index;
 
         Debug.Log(correctOptionIndex);
-        for (int i = 0; i < allOptions.Length; i++) {
-            if (i != correctOptionIndex)
-                allOptions[i].isOn = false;
-            else
-                allOptions[i].isOn = true;
+        for (int i = 0; i < this.allOptions.Length; i++) {
+            this.allOptions[i].isOn = this.correctOptionIndex == i;
         }
     }
     public void SaveButtonPressed() {
-        QuizzesLoader.CurrentQuiz.QuestionList.Add(new Question(question.text, correctOptionIndex, option1.text, option2.text, option3.text));
-        MainUIs.MoveToPage(MainUIsEnum.QuizDetailsPage);
+        Question question = new Question(this.question.text, this.correctOptionIndex, this.option1.text, this.option2.text, this.option3.text);
+        QuizzesLoader.CurrentQuiz.QuestionList.Add(question);
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
 }

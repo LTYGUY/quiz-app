@@ -1,21 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class MainPage : MonoBehaviour {
-    [SerializeField]
-    Transform quizPrefab;
-    [SerializeField]
-    Transform quizzesContainer;
+    [SerializeField] Transform quizPrefab;
+    [SerializeField] Transform quizzesContainer;
+
     void Awake() {
         QuizzesLoader.OnQuizzesLoad += OnQuizzesLoad;
         QuizzesLoader.OnNewQuizAdded += AddNewQuiz;
     }
 
     void OnQuizzesLoad() {
-        foreach (Quiz quiz in QuizzesLoader.Quizzes.QuizList) {
-            AddNewQuiz(quiz);
-        }
+        QuizzesLoader.Quizzes.QuizList.ForEach(AddNewQuiz);
     }
 
     void AddNewQuiz(Quiz quiz) {
@@ -23,6 +18,6 @@ public class MainPage : MonoBehaviour {
     }
 
     public void OnCreateQuizButtonPressed() {
-        MainUIs.MoveToPage(MainUIsEnum.NewQuizPage);
+        MainUI.MoveToPage(MainUIEnum.NewQuizPage);
     }
 }

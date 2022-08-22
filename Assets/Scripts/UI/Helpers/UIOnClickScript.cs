@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
 
@@ -12,6 +10,6 @@ public class UIOnClickScript : MonoBehaviour, IPointerClickHandler {
     public MyEvent onClick;
 
     public void OnPointerClick(PointerEventData data) {
-        onClick?.Invoke();
+        this.onClick?.Invoke();
     }
 }
