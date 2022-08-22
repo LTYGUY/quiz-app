@@ -2402,6 +2402,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 279082106}
+  - component: {fileID: 279082107}
   m_Layer: 5
   m_Name: QuizPreview
   m_TagString: Untagged
@@ -2431,6 +2432,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &279082107
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279082105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0af3bb172ca4eee4a971373dbc9b4c1e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  questionNo: {fileID: 1234098978}
+  question: {fileID: 2046022097}
+  option1: {fileID: 111256418}
+  option2: {fileID: 1046743512}
+  option3: {fileID: 1230507473}
+  nextButton: {fileID: 615005699}
 --- !u!1 &298876006
 GameObject:
   m_ObjectHideFlags: 0
@@ -4634,7 +4653,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 717650897}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1756884644}
+        m_TargetAssemblyTypeName: QuizResultsPage, Assembly-CSharp
+        m_MethodName: OnBackToMainMenuPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &717650897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4756,7 +4787,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 279082107}
+        m_TargetAssemblyTypeName: QuizPreviewPage, Assembly-CSharp
+        m_MethodName: ChooseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &741149502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7032,7 +7075,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 279082107}
+        m_TargetAssemblyTypeName: QuizPreviewPage, Assembly-CSharp
+        m_MethodName: ChooseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1224141502
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9140,6 +9195,7 @@ MonoBehaviour:
   quizTitle: {fileID: 53055967}
   questionPrefab: {fileID: 8882812170705115206, guid: 6bcc8373ce7b30b47b17e5f5da29b440, type: 3}
   questionsContainer: {fileID: 625025351}
+  previewButton: {fileID: 1043997403}
 --- !u!1 &1731399276
 GameObject:
   m_ObjectHideFlags: 0
@@ -9429,6 +9485,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1756884643}
+  - component: {fileID: 1756884644}
   m_Layer: 5
   m_Name: QuizResults
   m_TagString: Untagged
@@ -9457,6 +9514,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1756884644
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756884642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04924d64e5c55ca4f8bacbebfddc14b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  yourScore: {fileID: 105898973}
 --- !u!1 &1800977427
 GameObject:
   m_ObjectHideFlags: 0
@@ -9844,7 +9914,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1836669698}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 279082107}
+        m_TargetAssemblyTypeName: QuizPreviewPage, Assembly-CSharp
+        m_MethodName: OnNextButtonPressed
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1836669698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11397,7 +11479,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 279082107}
+        m_TargetAssemblyTypeName: QuizPreviewPage, Assembly-CSharp
+        m_MethodName: ChooseOption
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &2137074472
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -9,11 +9,19 @@ public class QuizDetailsPage : MonoBehaviour {
     Transform questionPrefab;
     [SerializeField]
     Transform questionsContainer;
+
+    [SerializeField]
+    GameObject previewButton;
     void Awake() {
 
     }
 
     void OnEnable() {
+        if (QuizzesLoader.CurrentQuiz.QuestionList.Count < 1)
+            previewButton.SetActive(false);
+        else
+            previewButton.SetActive(true);
+
         quizTitle.text = $"Title: {QuizzesLoader.CurrentQuiz.QuizName}";
 
         foreach (Transform t in questionsContainer) {
@@ -37,6 +45,8 @@ public class QuizDetailsPage : MonoBehaviour {
     }
 
     public void PreviewQuizPressed() {
+        if (QuizzesLoader.CurrentQuiz.QuestionList.Count < 1)
+            return;
         MainUIs.MoveToPage(MainUIsEnum.QuizPreviewPage);
     }
 }
