@@ -27,7 +27,8 @@ public class MainUI : MonoBehaviour {
     }
 
     public static void MoveToPage(MainUIEnum page) {
-        MainUI.currentPage.SetActive(!currentPage);
+        if (MainUI.currentPage) MainUI.currentPage.SetActive(false);
+
         MainUI.currentPage = MainUI.mainPages[(int)page];
         MainUI.currentPage.SetActive(true);
     }
