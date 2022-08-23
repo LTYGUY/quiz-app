@@ -1,7 +1,4 @@
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
-
 using TMPro;
 
 public class QuestionDetailsPage : MonoBehaviour {
@@ -17,12 +14,17 @@ public class QuestionDetailsPage : MonoBehaviour {
     public void CorrectOptionChosen(int index) {
         options.ChooseOption(index);
     }
-    public void SaveButtonPressed() {
+
+    public void OnSaveButtonPressed() {
         if (this.ChosenIndex == -1)
             return;
 
         Question question = new Question(this.question.text, this.ChosenIndex, this.option1.text, this.option2.text, this.option3.text);
         QuizzesLoader.CurrentQuiz.QuestionList.Add(question);
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
+    }
+
+    public void OnCancelButtonPressed() {
         MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
 }

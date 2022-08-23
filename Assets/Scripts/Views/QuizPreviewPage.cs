@@ -59,4 +59,8 @@ public class QuizPreviewPage : MonoBehaviour {
     void OnSubmitButtonPressed() {
         MainUI.MoveToPage(MainUIEnum.QuizResultsPage);
     }
+
+    public void OnCancelButtonPressed() {
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
+    }
 }

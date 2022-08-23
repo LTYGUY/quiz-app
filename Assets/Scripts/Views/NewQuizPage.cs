@@ -11,4 +11,8 @@ public class NewQuizPage : MonoBehaviour {
         QuizzesLoader.AddNewQuiz(new Quiz(this.quizName.text, new List<Question>()));
         MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
+
+    public void OnCancelButtonPressed() {
+        MainUI.MoveToPage(MainUIEnum.MainPage);
+    }
 }

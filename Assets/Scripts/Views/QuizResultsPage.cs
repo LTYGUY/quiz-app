@@ -9,6 +9,6 @@ public class QuizResultsPage : MonoBehaviour {
     }
 
     public void OnBackToMainMenuPressed() {
-        MainUI.MoveToPage(MainUIEnum.MainPage);
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
 }
