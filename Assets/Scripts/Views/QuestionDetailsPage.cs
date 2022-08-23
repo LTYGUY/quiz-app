@@ -28,7 +28,7 @@ public class QuestionDetailsPage : MonoBehaviour {
         this.option1.text = question.OptionList[0];
         this.option2.text = question.OptionList[1];
         this.option3.text = question.OptionList[2];
-        this.options.ChooseOption(question.CorrectOptionIndex);
+        this.options.ChooseOption(question.AnswerIndex);
     }
 
     public void OnSaveButtonPressed() {

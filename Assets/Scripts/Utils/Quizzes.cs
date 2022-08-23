@@ -26,12 +26,12 @@ public class Quiz {
 [Serializable]
 public class Question {
     public string Query { get; }
-    public int CorrectOptionIndex { get; set; }
+    public int AnswerIndex { get; set; }
     public string[] OptionList { get; set; }
 
     public Question(string quizQuestion, int correctOption, params string[] options) {
         this.Query = quizQuestion;
-        this.CorrectOptionIndex = correctOption;
+        this.AnswerIndex = correctOption;
         this.OptionList = options;
     }
 }

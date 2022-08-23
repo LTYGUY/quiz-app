@@ -52,7 +52,7 @@ public class QuizPreviewPage : MonoBehaviour {
     }
 
     void IncreaseScoreIfCorrect() {
-        if (ChosenOption != QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].CorrectOptionIndex) return;
+        if (ChosenOption != QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].AnswerIndex) return;
         QuizPreviewPage.currentScore++;
     }
 
