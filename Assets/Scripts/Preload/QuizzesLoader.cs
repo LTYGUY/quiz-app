@@ -1,11 +1,12 @@
 using System;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using Newtonsoft.Json;
-
+using Newtonsoft.Json.Linq;
 
 public class QuizzesLoader : MonoBehaviour {
     const string ServerURL = "https://svcif5fgha.execute-api.ap-southeast-1.amazonaws.com/";
@@ -24,25 +25,41 @@ public class QuizzesLoader : MonoBehaviour {
     }
 
     void Start() {
-        StartCoroutine(this.LoadQuizzesFromDatabase($"{QuizzesLoader.ServerURL}{SystemInfo.deviceUniqueIdentifier}"));
+        StartCoroutine(this.LoadQuizzesFromDatabase($"{QuizzesLoader.ServerURL}quizzes/{SystemInfo.deviceUniqueIdentifier}"));
     }
 
     void LoadQuizzesLocally() {
         if (!File.Exists(QuizzesLoader.SavePath)) return;
         QuizzesLoader.Quizzes = JsonConvert.DeserializeObject<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath));
+        QuizzesLoader.OnQuizzesLoad?.Invoke();
     }
 
     IEnumerator LoadQuizzesFromDatabase(string URI) {
+        bool registered = true;
+
         using (UnityWebRequest getRequest = UnityWebRequest.Get(URI)) {
             yield return getRequest.SendWebRequest();
 
             if (getRequest.result == UnityWebRequest.Result.Success) {
-                QuizzesLoader.Quizzes = JsonConvert.DeserializeObject<Quizzes>(getRequest.downloadHandler.text);
+                JObject jObject = JObject.Parse(getRequest.downloadHandler.text);
+                if (jObject["quizzes"] != null) {
+                    jObject.Remove("DeviceID");
+                    QuizzesLoader.Quizzes = JsonConvert.DeserializeObject<Quizzes>(jObject["quizzes"].ToString().Replace("\\", ""));
+                    QuizzesLoader.OnQuizzesLoad?.Invoke();
+                    print("Loaded quizzes from database.");
+                }
+
+                else {
+                    print("Device is not yet registered.");
+                    registered = false;
+                }
             }
 
             else {
-                this.LoadQuizzesLocally();
+                print("Failed to load quizzes from database.");
             }
+
+            if (!registered) this.LoadQuizzesLocally();
         }
     }
 
@@ -75,16 +92,22 @@ public class QuizzesLoader : MonoBehaviour {
     }
 
     IEnumerator PostRequest(string URI, string json) {
-        using (UnityWebRequest postRequest = UnityWebRequest.Post(URI, json)) {
-            yield return postRequest.SendWebRequest();
+        JObject jObject = JObject.Parse(json);
+        jObject.Add("DeviceID", SystemInfo.deviceUniqueIdentifier);
+        WWWForm form = new WWWForm();
+        form.AddField("body", jObject.ToString());
 
-            if (postRequest.result == UnityWebRequest.Result.Success) {
+        using (UnityWebRequest webRequest = UnityWebRequest.Put(URI, jObject.ToString())) {
+            webRequest.method = "POST";
+            webRequest.SetRequestHeader("Content-Type", "application/json");
+            yield return webRequest.SendWebRequest();
+
+            if (webRequest.result == UnityWebRequest.Result.Success) {
                 print("Successfully saved to database!");
             }
 
             else {
-                print("Failed to save to database!");
-                print(postRequest.error);
+                print(webRequest.error);
                 QuizzesLoader.WriteQuizToFile();
             }
         }
