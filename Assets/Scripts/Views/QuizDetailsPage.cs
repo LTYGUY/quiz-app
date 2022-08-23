@@ -17,7 +17,7 @@ public class QuizDetailsPage : MonoBehaviour {
         }
 
         for (int i = 0; i < QuizzesLoader.CurrentQuiz.QuestionList.Count; i++) {
-            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>().Setup(i, QuizzesLoader.CurrentQuiz.QuestionList[i].QuizQuestion);
+            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>().Setup(i, QuizzesLoader.CurrentQuiz.QuestionList[i].Query);
         }
     }
 

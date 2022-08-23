@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 [Serializable]
 public class Quizzes {
-    public List<Quiz> QuizList { get; } = new List<Quiz>();
     public long Timestamp { get; } = 0;
+    public List<Quiz> QuizList { get; } = new List<Quiz>();
 
     public Quizzes(List<Quiz> quizList) {
         this.QuizList = quizList;
