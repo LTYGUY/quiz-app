@@ -10,8 +10,21 @@ public class Quizzes {
         this.QuizList = quizList;
         this.Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
     }
+
+    public Dictionary<string, Dictionary<string, Question>> ConvertToJSON() {
+        Dictionary<string, Dictionary<string, Question>> quizzesData = new Dictionary<string, Dictionary<string, Question>>();
+
+        for (int i = 0; i < QuizList.Count; i++) {
+            Dictionary<string, Question> questionsData = new Dictionary<string, Question>();
+
+            quizzesData.Add(i.ToString(), QuizList[i].ConvertToJSON());
+        }
+
+        return quizzesData;
+    }
 }
 
+[Serializable]
 public class Quiz {
     public string QuizName { get; }
     public List<Question> QuestionList { get; } = new List<Question>();
@@ -20,8 +33,20 @@ public class Quiz {
         this.QuizName = quizName;
         this.QuestionList.AddRange(questionList);
     }
+
+    public Dictionary<string, Question> ConvertToJSON() {
+        Dictionary<string, Question> questionsData = new Dictionary<string, Question>();
+
+        for (int i = 0; i < QuestionList.Count; i++) {
+            Question question = QuestionList[i];
+            questionsData.Add(i.ToString(), question);
+        }
+
+        return questionsData;
+    }
 }
 
+[Serializable]
 public class Question {
     public string QuizQuestion { get; }
     public int CorrectOptionIndex { get; }

@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System.IO;
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ public class QuizzesLoader : MonoBehaviour {
 
     void LoadQuizzes() {
         // TODO: Add database sync
-        QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonUtility.FromJson<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : new Quizzes(new List<Quiz>());
+        QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonConvert.DeserializeObject<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : new Quizzes(new List<Quiz>());
 
         QuizzesLoader.OnQuizzesLoad?.Invoke();
     }
@@ -31,7 +32,8 @@ public class QuizzesLoader : MonoBehaviour {
         QuizzesLoader.Quizzes.QuizList.Add(quiz);
         QuizzesLoader.CurrentQuiz = quiz;
         QuizzesLoader.OnNewQuizAdded?.Invoke(quiz);
+        WriteQuizzesToFile();
     }
 
-    public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonUtility.ToJson(QuizzesLoader.Quizzes));
+    public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonConvert.SerializeObject(QuizzesLoader.Quizzes));
 }
