@@ -1,45 +1,56 @@
-using Newtonsoft.Json;
-using System.IO;
-using System.Collections.Generic;
-
 using System;
+using System.IO;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
+using Newtonsoft.Json;
+
 
 public class QuizzesLoader : MonoBehaviour {
+    const string ServerURL = "https://svcif5fgha.execute-api.ap-southeast-1.amazonaws.com/";
     static string SavePath => $"{Application.persistentDataPath}/quizzes.json";
-    public static Quizzes Quizzes { get; private set; }
 
+    public static event Action OnQuizzesSave;
+    public static event Action OnQuizzesLoad;
+    public static event Action<Quiz> OnNewQuizAdded;
+    public static event Action<Quiz> OnQuizDeleted;
+
+    public static Quizzes Quizzes { get; private set; } = new Quizzes(new List<Quiz>());
     public static Quiz CurrentQuiz { get; private set; }
 
-    public static event Action OnQuizzesLoad;
-
-    public delegate void QuizEvent(Quiz quiz);
-    public static event QuizEvent OnNewQuizAdded, OnQuizDeleted;
-
-    //in Start because other scripts have not initialised in Awake yet.
-    void Start() {
-        this.LoadQuizzes();
+    void Awake() {
+        QuizzesLoader.OnQuizzesSave += this.SaveQuizToDatabase;
     }
 
-    void LoadQuizzes() {
-        // TODO: Add database sync
-        if (!File.Exists(QuizzesLoader.SavePath)) {
-            QuizzesLoader.Quizzes = new Quizzes(new List<Quiz>());
-        }
-        else {
-            using (StreamReader file = File.OpenText(QuizzesLoader.SavePath)) {
-                JsonSerializer serializer = new JsonSerializer();
-                QuizzesLoader.Quizzes = (Quizzes)serializer.Deserialize(file, typeof(Quizzes));
+    void Start() {
+        StartCoroutine(this.LoadQuizzesFromDatabase($"{QuizzesLoader.ServerURL}{SystemInfo.deviceUniqueIdentifier}"));
+    }
+
+    void LoadQuizzesLocally() {
+        if (!File.Exists(QuizzesLoader.SavePath)) return;
+        QuizzesLoader.Quizzes = JsonConvert.DeserializeObject<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath));
+    }
+
+    IEnumerator LoadQuizzesFromDatabase(string URI) {
+        using (UnityWebRequest getRequest = UnityWebRequest.Get(URI)) {
+            yield return getRequest.SendWebRequest();
+
+            if (getRequest.result == UnityWebRequest.Result.Success) {
+                QuizzesLoader.Quizzes = JsonConvert.DeserializeObject<Quizzes>(getRequest.downloadHandler.text);
+            }
+
+            else {
+                this.LoadQuizzesLocally();
             }
         }
-        QuizzesLoader.OnQuizzesLoad?.Invoke();
     }
 
     public static void AddNewQuiz(Quiz quiz) {
         QuizzesLoader.Quizzes.QuizList.Add(quiz);
         QuizzesLoader.CurrentQuiz = quiz;
         QuizzesLoader.OnNewQuizAdded?.Invoke(quiz);
-        WriteQuizzesToFile();
+        SaveQuizzes();
     }
 
     public static void EditQuiz(int id) {
@@ -50,10 +61,34 @@ public class QuizzesLoader : MonoBehaviour {
     public static void DeleteQuiz(Quiz quiz) {
         QuizzesLoader.Quizzes.QuizList.Remove(quiz);
         QuizzesLoader.OnQuizDeleted?.Invoke(quiz);
-        WriteQuizzesToFile();
+        SaveQuizzes();
 
         MainUI.MoveToPage(MainUIEnum.MainPage);
     }
 
-    public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonConvert.SerializeObject(QuizzesLoader.Quizzes));
+    public static void SaveQuizzes() {
+        QuizzesLoader.OnQuizzesSave?.Invoke();
+    }
+
+    public void SaveQuizToDatabase() {
+        StartCoroutine(this.PostRequest($"{QuizzesLoader.ServerURL}quizzes", JsonConvert.SerializeObject(QuizzesLoader.Quizzes)));
+    }
+
+    IEnumerator PostRequest(string URI, string json) {
+        using (UnityWebRequest postRequest = UnityWebRequest.Post(URI, json)) {
+            yield return postRequest.SendWebRequest();
+
+            if (postRequest.result == UnityWebRequest.Result.Success) {
+                print("Successfully saved to database!");
+            }
+
+            else {
+                print("Failed to save to database!");
+                print(postRequest.error);
+                QuizzesLoader.WriteQuizToFile();
+            }
+        }
+    }
+
+    public static void WriteQuizToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonConvert.SerializeObject(QuizzesLoader.Quizzes));
 }

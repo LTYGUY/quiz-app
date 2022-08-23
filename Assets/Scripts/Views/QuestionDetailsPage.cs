@@ -43,7 +43,7 @@ public class QuestionDetailsPage : MonoBehaviour {
             QuizzesLoader.CurrentQuiz.QuestionList.Add(question);
         }
 
-        QuizzesLoader.WriteQuizzesToFile();
+        QuizzesLoader.SaveQuizzes();
         MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
     }
 
