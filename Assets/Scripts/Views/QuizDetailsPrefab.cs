@@ -4,9 +4,17 @@ using TMPro;
 public class QuizDetailsPrefab : MonoBehaviour {
     [SerializeField] TextMeshProUGUI index;
     [SerializeField] TextMeshProUGUI question;
+    int questionIndex;
 
-    public void Setup(string index, string question) {
-        this.index.text = index;
+    public void Setup(int id, string question) {
+        this.questionIndex = id;
         this.question.text = question;
+
+        this.index.text = $"{questionIndex + 1}";
+    }
+
+    public void OnEditButtonPressed() {
+        MainUI.MoveToPage(MainUIEnum.QuestionDetailsPage);
+        MainUI.QuestionDetailsPage.OnEditQuestion(questionIndex);
     }
 }

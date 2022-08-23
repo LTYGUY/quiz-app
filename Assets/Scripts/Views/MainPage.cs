@@ -4,7 +4,7 @@ public class MainPage : MonoBehaviour {
     [SerializeField] Transform quizPrefab;
     [SerializeField] Transform quizzesContainer;
 
-    int quizAmount = 0;
+    int quizID = 0;
 
     void Awake() {
         QuizzesLoader.OnQuizzesLoad += OnQuizzesLoad;
@@ -16,12 +16,11 @@ public class MainPage : MonoBehaviour {
     }
 
     void AddNewQuiz(Quiz quiz) {
-        quizAmount++;
-
         Transform t = Instantiate(quizPrefab, quizzesContainer);
         Main_QuizPrefab newQuiz = t.GetComponent<Main_QuizPrefab>();
 
-        newQuiz.Setup($"{quizAmount}", quiz.QuizName);
+        newQuiz.Setup(quizID, quiz);
+        quizID++;
     }
 
     public void OnCreateQuizButtonPressed() {

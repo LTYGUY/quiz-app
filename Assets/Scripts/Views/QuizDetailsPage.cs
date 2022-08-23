@@ -17,12 +17,13 @@ public class QuizDetailsPage : MonoBehaviour {
         }
 
         for (int i = 0; i < QuizzesLoader.CurrentQuiz.QuestionList.Count; i++) {
-            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>().Setup($"{i}", QuizzesLoader.CurrentQuiz.QuestionList[i].QuizQuestion);
+            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>().Setup(i, QuizzesLoader.CurrentQuiz.QuestionList[i].QuizQuestion);
         }
     }
 
     public void AddQuestionPressed() {
         MainUI.MoveToPage(MainUIEnum.QuestionDetailsPage);
+        MainUI.QuestionDetailsPage.OnEditQuestion(-1);
     }
 
     public void PreviewQuizPressed() {

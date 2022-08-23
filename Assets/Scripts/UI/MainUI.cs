@@ -12,6 +12,8 @@ public class MainUI : MonoBehaviour {
     static GameObject currentPage;
     static List<GameObject> mainPages;
 
+    public static QuestionDetailsPage QuestionDetailsPage;
+
     void Awake() {
         MainUI.mainPages = new List<GameObject>() {
             mainPage,
@@ -24,6 +26,8 @@ public class MainUI : MonoBehaviour {
 
         MainUI.mainPages.ForEach(go => go.SetActive(false));
         MainUI.MoveToPage(MainUIEnum.MainPage);
+
+        MainUI.QuestionDetailsPage = questionDetailsPage.GetComponent<QuestionDetailsPage>();
     }
 
     public static void MoveToPage(MainUIEnum page) {
