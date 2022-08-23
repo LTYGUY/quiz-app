@@ -5,32 +5,37 @@ public class QuizPreviewPage : MonoBehaviour {
     [SerializeField]
     TextMeshProUGUI questionNo, question, option1, option2, option3, nextButton;
 
+    [SerializeField] UIOptions options;
+
     int currentQuestionIndex;
-    int chosenOption = -1;
+    int ChosenOption => options.ChosenIndex;
     public static int currentScore = 0;
 
     void OnEnable() {
         this.currentQuestionIndex = 0;
         QuizPreviewPage.currentScore = 0;
+
+        //no quiz was assigned into CurrentQuiz
+        if (QuizzesLoader.CurrentQuiz == null)
+            return;
+
         this.SetupQuestion();
         this.nextButton.text = this.currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1 ? "Submit" : "Next";
     }
 
-    public void ChooseOption(int index) {
-        this.chosenOption = index;
-    }
-
     public void OnNextButtonPressed() {
-        if (this.chosenOption == -1) return;
+        if (this.ChosenOption == -1) return;
+
+        this.IncreaseScoreIfCorrect();
 
         if (this.currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1) {
             this.OnSubmitButtonPressed();
             return;
         }
 
-        this.IncreaseScoreIfCorrect();
+
         this.currentQuestionIndex++;
-        this.chosenOption = -1;
+        this.options.ChooseOption(-1);
         this.SetupQuestion();
 
         if (currentQuestionIndex == QuizzesLoader.CurrentQuiz.QuestionList.Count - 1) {
@@ -47,7 +52,7 @@ public class QuizPreviewPage : MonoBehaviour {
     }
 
     void IncreaseScoreIfCorrect() {
-        if (currentQuestionIndex != QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].CorrectOptionIndex) return;
+        if (ChosenOption != QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].CorrectOptionIndex) return;
         QuizPreviewPage.currentScore++;
     }
 

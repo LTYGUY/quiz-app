@@ -22,7 +22,7 @@ public class Quiz {
     }
 }
 
-public readonly struct Question {
+public class Question {
     public string QuizQuestion { get; }
     public int CorrectOptionIndex { get; }
     public string[] OptionList { get; }
