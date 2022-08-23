@@ -16,13 +16,9 @@ public class QuizDetailsPage : MonoBehaviour {
             Destroy(transform.gameObject);
         }
 
-        int i = 1;
-        foreach (Question question in QuizzesLoader.CurrentQuiz.QuestionList) {
-            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>()
-                                                           .Setup($"{i}", question.QuizQuestion);
-            i++;
+        for (int i = 0; i < QuizzesLoader.CurrentQuiz.QuestionList.Count; i++) {
+            Instantiate(questionPrefab, questionsContainer).GetComponent<QuizDetailsPrefab>().Setup($"{i}", QuizzesLoader.CurrentQuiz.QuestionList[i].QuizQuestion);
         }
-
     }
 
     public void AddQuestionPressed() {
