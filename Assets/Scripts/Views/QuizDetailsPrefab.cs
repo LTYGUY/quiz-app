@@ -17,4 +17,10 @@ public class QuizDetailsPrefab : MonoBehaviour {
         MainUI.MoveToPage(MainUIEnum.QuestionDetailsPage);
         MainUI.QuestionDetailsPage.OnEditQuestion(questionIndex);
     }
+
+    public void OnDeleteButtonPressed() {
+        QuizzesLoader.CurrentQuiz.QuestionList.RemoveAt(questionIndex);
+        QuizzesLoader.WriteQuizzesToFile();
+        MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
+    }
 }

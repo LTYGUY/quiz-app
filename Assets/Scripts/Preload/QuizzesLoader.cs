@@ -14,7 +14,7 @@ public class QuizzesLoader : MonoBehaviour {
     public static event Action OnQuizzesLoad;
 
     public delegate void QuizEvent(Quiz quiz);
-    public static event QuizEvent OnNewQuizAdded;
+    public static event QuizEvent OnNewQuizAdded, OnQuizDeleted;
 
     //in Start because other scripts have not initialised in Awake yet.
     void Start() {
@@ -23,15 +23,16 @@ public class QuizzesLoader : MonoBehaviour {
 
     void LoadQuizzes() {
         // TODO: Add database sync
-        //QuizzesLoader.Quizzes = File.Exists(QuizzesLoader.SavePath) ? JsonConvert.DeserializeObject<Quizzes>(File.ReadAllText(QuizzesLoader.SavePath)) : new Quizzes(new List<Quiz>());
-
-        using (StreamReader file = File.OpenText(QuizzesLoader.SavePath)) {
-            JsonSerializer serializer = new JsonSerializer();
-            QuizzesLoader.Quizzes = (Quizzes)serializer.Deserialize(file, typeof(Quizzes));
+        if (!File.Exists(QuizzesLoader.SavePath)) {
+            QuizzesLoader.Quizzes = new Quizzes(new List<Quiz>());
+        }
+        else {
+            using (StreamReader file = File.OpenText(QuizzesLoader.SavePath)) {
+                JsonSerializer serializer = new JsonSerializer();
+                QuizzesLoader.Quizzes = (Quizzes)serializer.Deserialize(file, typeof(Quizzes));
+            }
         }
         QuizzesLoader.OnQuizzesLoad?.Invoke();
-
-        CurrentQuiz = QuizzesLoader.Quizzes.QuizList[0];
     }
 
     public static void AddNewQuiz(Quiz quiz) {
@@ -44,6 +45,14 @@ public class QuizzesLoader : MonoBehaviour {
     public static void EditQuiz(int id) {
         CurrentQuiz = Quizzes.QuizList[id];
         MainUI.MoveToPage(MainUIEnum.QuizDetailsPage);
+    }
+
+    public static void DeleteQuiz(Quiz quiz) {
+        QuizzesLoader.Quizzes.QuizList.Remove(quiz);
+        QuizzesLoader.OnQuizDeleted?.Invoke(quiz);
+        WriteQuizzesToFile();
+
+        MainUI.MoveToPage(MainUIEnum.MainPage);
     }
 
     public static void WriteQuizzesToFile() => File.WriteAllText(QuizzesLoader.SavePath, JsonConvert.SerializeObject(QuizzesLoader.Quizzes));

@@ -34,4 +34,8 @@ public class QuizDetailsPage : MonoBehaviour {
     public void OnBackButtonPressed() {
         MainUI.MoveToPage(MainUIEnum.MainPage);
     }
+
+    public void OnDeleteQuizPressed() {
+        QuizzesLoader.DeleteQuiz(QuizzesLoader.CurrentQuiz);
+    }
 }
