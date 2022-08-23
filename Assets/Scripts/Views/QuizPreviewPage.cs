@@ -45,7 +45,7 @@ public class QuizPreviewPage : MonoBehaviour {
 
     void SetupQuestion() {
         questionNo.text = $"Question ({currentQuestionIndex + 1}/{QuizzesLoader.CurrentQuiz.QuestionList.Count})";
-        question.text = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].QuizQuestion;
+        question.text = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].Query;
         option1.text = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].OptionList[0];
         option2.text = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].OptionList[1];
         option3.text = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex].OptionList[2];

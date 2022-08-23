@@ -24,7 +24,7 @@ public class QuestionDetailsPage : MonoBehaviour {
             return;
 
         Question question = QuizzesLoader.CurrentQuiz.QuestionList[currentQuestionIndex];
-        this.question.text = question.QuizQuestion;
+        this.question.text = question.Query;
         this.option1.text = question.OptionList[0];
         this.option2.text = question.OptionList[1];
         this.option3.text = question.OptionList[2];
