@@ -2,8 +2,7 @@ using UnityEngine;
 using TMPro;
 
 public class QuizPreviewPage : MonoBehaviour {
-    [SerializeField]
-    TextMeshProUGUI questionNo, question, option1, option2, option3, nextButton;
+    [SerializeField] TextMeshProUGUI questionNo, question, option1, option2, option3, nextButton;
 
     [SerializeField] UIOptions options;
 

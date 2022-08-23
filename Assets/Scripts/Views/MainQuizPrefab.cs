@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class Main_QuizPrefab : MonoBehaviour {
+public class MainQuizPrefab : MonoBehaviour {
     [SerializeField] TextMeshProUGUI index;
     [SerializeField] TextMeshProUGUI quizName;
 

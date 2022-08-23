@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -5,7 +6,6 @@ public class MainPage : MonoBehaviour {
     [SerializeField] Transform quizPrefab;
     [SerializeField] Transform quizzesContainer;
 
-    int quizID = 0;
     Dictionary<Quiz, GameObject> spawnedQuizzes = new Dictionary<Quiz, GameObject>();
 
     void Awake() {
@@ -19,23 +19,24 @@ public class MainPage : MonoBehaviour {
     }
 
     void AddNewQuiz(Quiz quiz) {
-        Transform t = Instantiate(quizPrefab, quizzesContainer);
-        Main_QuizPrefab newQuiz = t.GetComponent<Main_QuizPrefab>();
-        spawnedQuizzes.Add(quiz, t.gameObject);
-
-        newQuiz.Setup(quizID, quiz);
-        quizID++;
+        Transform transform = Instantiate(quizPrefab, quizzesContainer);
+        MainQuizPrefab newQuiz = transform.GetComponent<MainQuizPrefab>();
+        this.spawnedQuizzes.Add(quiz, transform.gameObject);
+        this.UpdateQuizIndex();
     }
 
     void QuizRemoved(Quiz quiz) {
         Destroy(spawnedQuizzes[quiz]);
-        spawnedQuizzes.Remove(quiz);
+        this.spawnedQuizzes.Remove(quiz);
+        UpdateQuizIndex();
+    }
 
-        quizID = 0;
-        foreach (KeyValuePair<Quiz, GameObject> spawnedQuiz in spawnedQuizzes) {
-            Main_QuizPrefab script = spawnedQuiz.Value.GetComponent<Main_QuizPrefab>();
-            script.Setup(quizID, spawnedQuiz.Key);
-            quizID++;
+    void UpdateQuizIndex() {
+        for (int i = 0; i < this.spawnedQuizzes.Count; i++) {
+            KeyValuePair<Quiz, GameObject> spawnedQuiz = this.spawnedQuizzes.ElementAt(i);
+            spawnedQuiz.Value
+                       .GetComponent<MainQuizPrefab>()
+                       .Setup(i, spawnedQuiz.Key);
         }
     }
 
