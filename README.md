@@ -5,3 +5,7 @@
 ## Requirements
 
 - Unity 2022.1.3f1
+
+## Issues
+
+Persistence is not implemented in the WebGL build.
